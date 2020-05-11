@@ -2,6 +2,8 @@
 
 import psycopg2
 
+from sql_queries import drop_table_queries
+
 
 def create_database():
     """
@@ -27,3 +29,15 @@ def create_database():
 
     return cur, conn
 
+
+def drop_tables(cur, conn):
+    """
+    Drops each table using the queries in `drop_table_queries` list.
+    """
+    for query in drop_table_queries:
+        try:
+            cur.execute(query)
+            conn.commit()
+        except psycopg2.Error as e:
+            print("Error Dropping Table using query: ", query)
+            print(e)
