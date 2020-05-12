@@ -1,6 +1,5 @@
 """Script for All Data Manipulation Queries"""
 
-
 # DROP TABLES
 
 songplay_table_drop = "DROP TABLE IF EXISTS songplays;"
@@ -59,6 +58,12 @@ artist_table_insert = ("""INSERT INTO artists \
 time_table_insert = ("""INSERT INTO time \
                         (start_time, hour, day, week, month, year, weekda) \
                         VALUES (%s, %s, %s, %s, %s, %s, %s) ON CONFLICT (start_time) DO NOTHING""")
+
+
+# FIND SONGS
+song_select = ("""select songs.song_id, songs.artist_id \
+                  from songs JOIN artists on songs.artist_id=artists.artist_id \
+                  where songs.title=%s and artists.name=%s and songs.duration=%s;""")
 
 
 drop_table_queries = [song_table_drop, artist_table_drop, time_table_drop, user_table_drop,
