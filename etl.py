@@ -1,10 +1,10 @@
 """ETL Pipeline"""
-import os
 import glob
-import psycopg2
-import pandas as pd
-
+import os
 from functools import partial
+
+import pandas as pd
+import psycopg2
 
 from sql_queries import *
 
