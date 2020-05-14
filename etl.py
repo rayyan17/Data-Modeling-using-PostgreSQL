@@ -1,4 +1,5 @@
 """ETL Pipeline"""
+import configparser
 import glob
 import os
 from functools import partial
@@ -103,7 +104,14 @@ def main():
     - Process all the song files and insert it into corresponding tables
     - Process all the log files and insert data into the corresponding tabless
     """
-    conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb user=student password=student")
+    config = configparser.ConfigParser()
+    config.read('psql.cfg')
+    db_config = config["DATABASE"]
+
+    conn = psycopg2.connect("host={} dbname={} user={} password={}".format(db_config["HOST"],
+                                                                           db_config["OUTPUT_DB_NAME"],
+                                                                           db_config["DB_USER"],
+                                                                           db_config["DB_PASSWORD"]))
     cur = conn.cursor()
 
     process_data(cur, conn, filepath='data/song_data', func=process_song_file)
